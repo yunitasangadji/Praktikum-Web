@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Kalkulator</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
+
+        .calculator {
+            background-color: #333;
+            border-radius: 10px;
+            box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
+            padding: 20px;
+            width: 300px;
+        }
+
+        .calculator-screen {
+            width: 100%;
+            height: 60px;
+            background-color: #000;
+            color: #fff;
+            border: none;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            font-size: 24px;
+            text-align: right;
+            padding-right: 10px;
+        }
+
+        .calculator-keys {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 10px;
+        }
+
+        button {
+            height: 60px;
+            font-size: 18px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4a4a4a;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        button.operator {
+            background-color: #f39c12;
+        }
+
+        button.equals {
+            background-color: #27ae60;
+            grid-column: span 2;
+        }
+
+        button.clear {
+            background-color: #e74c3c;
+        }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <input type="text" class="calculator-screen" id="display" value="0" disabled />
+        <div class="calculator-keys">
+            <button class="clear" id="all-clear">AC</button>
+            <button class="operator" data-operator="%">%</button>
+            <button class="operator" data-operator="/">÷</button>
+            <button class="operator" data-operator="*">×</button>
+            <button class="number" data-number="7">7</button>
+            <button class="number" data-number="8">8</button>
+            <button class="number" data-number="9">9</button>
+            <button class="operator" data-operator="-">−</button>
+            <button class="number" data-number="4">4</button>
+            <button class="number" data-number="5">5</button>
+            <button class="number" data-number="6">6</button>
+            <button class="operator" data-operator="+">+</button>
+            <button class="number" data-number="1">1</button>
+            <button class="number" data-number="2">2</button>
+            <button class="number" data-number="3">3</button>
+            <button class="equals" id="equals">=</button>
+            <button class="number" data-number="0">0</button>
+            <button class="operator" data-operator="^">^</button>
+            <button class="operator" data-operator="mod">Mod</button>
+        </div>
+    </div>
+
+    <script>
+        const display = document.getElementById('display');
+        const keys = document.querySelector('.calculator-keys');
+        let currentInput = '0';
+        let operator = '';
+        let previousInput = '';
+
+        keys.addEventListener('click', (event) => {
+            const { target } = event;
+            const action = target.dataset.operator;
+            const number = target.dataset.number;
+
+            // Handle number input
+            if (number) {
+                if (currentInput === '0' || currentInput === '') {
+                    currentInput = number;
+                } else {
+                    currentInput += number;
+                }
+                display.value = currentInput;
+            }
+
+            // Handle operator input
+            if (action) {
+                if (currentInput !== '') {
+                    previousInput = currentInput;
+                    currentInput = '';
+                }
+                operator = action;
+                display.value = previousInput + ' ' + operator;
+            }
+
+            // Handle equals
+            if (target.id === 'equals' && previousInput !== '' && currentInput !== '') {
+                let result = '';
+                const prev = parseFloat(previousInput);
+                const current = parseFloat(currentInput);
+
+                switch (operator) {
+                    case '+':
+                        result = prev + current;
+                        break;
+                    case '-':
+                        result = prev - current;
+                        break;
+                    case '*':
+                        result = prev * current;
+                        break;
+                    case '/':
+                        result = prev / current;
+                        break;
+                    case '%':
+                        result = prev % current;
+                        break;
+                    case '^':
+                        result = Math.pow(prev, current);
+                        break;
+                    case 'mod':
+                        result = prev % current;
+                        break;
+                    default:
+                        return;
+                }
+
+                display.value = result;
+                currentInput = result.toString();
+                previousInput = '';
+                operator = '';
+            }
+
+            // Handle clear
+            if (target.id === 'all-clear') {
+                currentInput = '0';
+                previousInput = '';
+                operator = '';
+                display.value = '0';
+            }
+        });
+    </script>
+</body>
+</html>

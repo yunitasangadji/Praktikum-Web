@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Penjumlahan</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        .container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+
+        input {
+            padding: 10px;
+            margin: 10px 0;
+            width: 100%;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        button {
+            padding: 10px 20px;
+            margin: 5px;
+            background-color: #5cb85c;
+            border: none;
+            border-radius: 5px;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        button#reset {
+            background-color: #d9534f;
+        }
+
+        .result {
+            margin-top: 20px;
+            font-size: 20px;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h2>Penjumlahan</h2>
+        <div>
+            <label for="bilanganPertama">Bilangan pertama</label><br>
+            <input type="number" id="bilanganPertama" value="1"><br>
+        </div>
+        <div>
+            <label for="bilanganKedua">Bilangan kedua</label><br>
+            <input type="number" id="bilanganKedua" value="2"><br>
+        </div>
+        <button onclick="hitung()">Jumlahkan</button>
+        <button id="reset" onclick="reset()">Reset</button>
+        <div class="result">
+            Hasil: <span id="hasil">3</span>
+        </div>
+    </div>
+
+    <script>
+        function hitung() {
+            var bil1 = parseFloat(document.getElementById('bilanganPertama').value);
+            var bil2 = parseFloat(document.getElementById('bilanganKedua').value);
+            var hasil = bil1 + bil2;
+            document.getElementById('hasil').textContent = hasil;
+        }
+
+        function reset() {
+            document.getElementById('bilanganPertama').value = '';
+            document.getElementById('bilanganKedua').value = '';
+            document.getElementById('hasil').textContent = '0';
+        }
+    </script>
+
+</body>
+</html>
